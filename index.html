@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<title>Live Currency Converter App By Kamal Sir</title>
+		<style>
+			*{font-size:40px; font-family:Cambria;}
+			body{background-color:lightblue;}
+			h2{width:70%; border:solid; border-radius:40px;}
+		</style> 
+	</head>
+	
+	<body>
+		<center>
+			<h1>Live Currency Converter App</h1>
+			<form onsubmit="convert()">
+			<input type="number" step="any" id="amt" placeholder="enter amt in $$"/>
+				<br><br>
+			<input type="submit" value="Get amt"/>
+			</form>
+				<h2 id="msg"/>
+			
+			<script>
+				function convert()
+				{
+					event.preventDefault();
+					let amt = document.getElementById("amt");
+					let msg = document.getElementById("msg");
+
+					if(amt.value==="")
+					{
+						alert("please enter amt");
+						msg.innerHTML="";	
+						amt.focus();
+						return;
+					}
+
+					let url = "https://api.exchangerate-api.com/v4/latest/USD";
+					fetch(url)
+					.then(res=>res.json())
+					.then(data=>{
+						let DOLLAR = data.rates.INR;
+						let aid = parseFloat(amt.value);
+						let air = aid * DOLLAR;
+						let a = "₹" + air.toFixed(2); 
+						msg.innerHTML = a;
+					})
+					.catch(err=>msg.innerHTML="issue"+err);
+		
+				}
+			</script>
+		</center>
+	</body>
+</html>
